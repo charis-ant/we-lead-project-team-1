@@ -23,6 +23,7 @@ public class Store extends BaseModel{
     private Integer telephoneNumber;
     private String description;
     private Double storeRating;
+//    private ArrayList<Product> products;   need to change this
     private ArrayList<StoreCategory> storeCategories;
     private LocalTime[][] schedule = new LocalTime[7][2];
     private BigDecimal minimumOrderPrice;

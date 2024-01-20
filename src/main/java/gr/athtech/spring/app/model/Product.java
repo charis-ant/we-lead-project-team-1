@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -21,5 +20,5 @@ public class Product extends BaseModel {
     private BigDecimal price;
     private String description;
     private Store store;
-    private ArrayList<ProductCategory> productCategories;
+    private ProductCategory productCategory;
 }

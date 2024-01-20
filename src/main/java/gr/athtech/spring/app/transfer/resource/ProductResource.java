@@ -4,16 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 @Getter
 @Setter
 @ToString(callSuper = true)
 public class ProductResource extends BaseResource {
+    @NotNull(message = "Name cannot be null")
     private String name;
+
+    @NotNull(message = "Price cannot be null")
     private BigDecimal price;
+
     private String description;
+
+    @NotNull(message = "Store cannot be null")
     private StoreResource store;
-    private ArrayList<ProductCategoryResource> productCategories;
+
+    private ProductCategoryResource productCategory;
 }

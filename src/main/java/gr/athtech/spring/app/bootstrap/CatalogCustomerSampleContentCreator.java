@@ -40,13 +40,13 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
 
         List<Product> products = List.of(
                 Product.builder().name("Hamburger").price(BigDecimal.valueOf(7)).description("classic hamburger")
-                        .productCategories(new ArrayList<> (List.of(newProductCategory))).build(),
+                        .productCategory( newProductCategory).build(),
                 Product.builder().name("Cheeseburger").price(BigDecimal.valueOf(8)).description("delicious cheeseburger")
-                        .productCategories(new ArrayList<> (List.of(newProductCategory))).build(),
+                        .productCategory( newProductCategory).build(),
                 Product.builder().name("Holy cow").price(BigDecimal.valueOf(10)).description("cheeseburger with a modern twist")
-                        .productCategories(new ArrayList<> (List.of(newProductCategory))).build(),
+                        .productCategory( newProductCategory).build(),
                 Product.builder().name("Veggie").price(BigDecimal.valueOf(9)).description("vegetarian burger")
-                        .productCategories(new ArrayList<> (List.of(newProductCategory))).build()
+                        .productCategory( newProductCategory).build()
         );
 
         products.forEach(product -> {
