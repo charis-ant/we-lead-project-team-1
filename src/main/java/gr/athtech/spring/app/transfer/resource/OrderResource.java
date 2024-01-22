@@ -10,7 +10,7 @@ import gr.athtech.spring.app.model.Status;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class OrderResource extends BaseResource {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss.SSS")
     private Date date;
 
-    private Map<ProductResource, Integer> products;
+    private HashMap<ProductResource, Integer> products;
 
     @NotNull(message = "Order Rating cannot be null")
     @Pattern(regexp = "[1-5]", message = "The Order Rating format is not correct")

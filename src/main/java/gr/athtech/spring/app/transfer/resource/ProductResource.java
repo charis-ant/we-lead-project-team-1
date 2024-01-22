@@ -19,8 +19,5 @@ public class ProductResource extends BaseResource {
 
     private String description;
 
-    @NotNull(message = "Store cannot be null")
-    private StoreResource store;
-
     private ProductCategoryResource productCategory;
 }

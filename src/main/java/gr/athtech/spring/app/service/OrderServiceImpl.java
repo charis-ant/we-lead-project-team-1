@@ -11,6 +11,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -24,8 +25,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     @Override
-    public Order initiateOrder(final Account account) {
-        return Order.builder().account(account).build();
+    public Order initiateOrder(final Account account, final Store store) {
+        return Order.builder().account(account).store(store).build();
     }
 
     @Override
@@ -40,39 +41,62 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
                 return;
             }
 
-            Map<Product, Integer> products = order.getProducts();
+            if (order.getProducts() == null) {
+                logger.info("checkpoint 1");
+                HashMap<Product, Integer> newProducts = new HashMap<>();
+                newProducts.put(product, 1);
+                order.setProducts(newProducts);
+            }   else {
+                HashMap<Product, Integer> products = order.getProducts();
+                boolean productFound = false;
+                for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+                    // If product is already contained in the order,
+                    // don't add it again, just increase the quantity accordingly
+                    if (entry.getKey().getId().equals(product.getId())) {
+                        products.put(entry.getKey(), products.getOrDefault(entry.getKey(), 0)+1);
+                        productFound = true;
+                        break;
+                    }
+                }
 
-            // If product is already contained in the order, don't add it again, just increase the quantity accordingly
-            for (Product p : products.keySet()) {
-                if (p.getId().equals(product.getId())) {
-                    products.put(p, products.getOrDefault(p, 0) + 1);
-                    break;
+                if (!productFound) {
+                    products.put(product,1);
+                    order.setProducts(products);
                 }
             }
-
-            orderRepository.update(order);
-            logger.trace("Product[{}] added to Order[{}]", product, order);
+            logger.info("Product added to Order");
         } else {
-            logger.trace("Store closed!");
+            logger.warn("Store closed!");
         }
     }
 
     @Override
     public void removeItem(Order order, Product product) {
-        if (checkNullability(order, product)) {
-            return;
-        }
+        DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
+        LocalTime currentTime = LocalTime.now();
 
-        Map<Product, Integer> products = order.getProducts();
+        LocalTime[][] checkSchedule = check(currentDay, order);
 
-        if (products.containsKey(product)){
-            if (products.get(product).equals(1)) {
-                products.remove(product);
-            }else{
-                products.put(product, products.get(product) - 1);
+        if (currentTime.isAfter(checkSchedule[0][0]) && currentTime.isBefore(checkSchedule[0][1])) {
+            if (checkNullability(order, product)) {
+                return;
             }
-        }
-        orderRepository.update(order);
+
+            HashMap<Product, Integer> products = order.getProducts();
+
+            if (products.containsKey(product)){
+                if (products.get(product).equals(1)) {
+                    products.remove(product);
+                }else{
+                    products.put(product, products.get(product) - 1);
+                }
+            }
+            logger.info("Product removed from Order");
+        } else {
+        logger.warn("Store closed!");
+    }
+
+
     }
 
     @Override
@@ -80,48 +104,52 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         if (order.getAccount().equals(account)) {
             orderRepository.delete(order);
         }
-
         //orderRepository.deleteById(order.getId());
     }
 
     @Override
-    public Order checkout(final Order order, final PaymentMethod paymentMethod, final BigDecimal deliveryTip) {
-        if (!validate(order)) {
-            logger.warn("Order should have account, products, and payment method defined, before being able to " +
-                    "checkout the order.");
-            return null;
+    public void checkout(final Order order, final PaymentMethod paymentMethod, final BigDecimal deliveryTip) {
+        DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
+        LocalTime currentTime = LocalTime.now();
+
+        LocalTime[][] checkSchedule = check(currentDay, order);
+
+        if (currentTime.isAfter(checkSchedule[0][0]) && currentTime.isBefore(checkSchedule[0][1])) {
+            if (!validate(order)) {
+                logger.warn("Order should have account, products, and payment method defined, before being able to " +
+                        "checkout the order.");
+            }
+
+            BigDecimal total = BigDecimal.ZERO;
+
+            for (Product p : order.getProducts().keySet()) {
+                BigDecimal price = p.getPrice();
+                Integer quantity = order.getProducts().get(p);
+                total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
+            }
+
+            order.setTotal(total);
+
+            //Check if order cost is above minimum order value
+            if (order.getTotal().compareTo(order.getStore().getMinimumOrderPrice()) < 0) {
+                logger.warn("Order cost must be above minimum order cost");
+            }
+
+            if (order.getDeliveryTip() != null){
+                order.setDeliveryTip(deliveryTip);
+                total = total.add(deliveryTip);
+            }
+
+            // Set all order fields with proper values
+            order.setStatus(Status.PENDING);
+            order.setPaymentMethod(paymentMethod);
+            order.setDate(new Date());
+            order.setTotal(total);
+
+            create(order);
+        } else {
+            logger.warn("Store closed!");
         }
-
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (Product p : order.getProducts().keySet()) {
-            BigDecimal price = p.getPrice();
-            Integer quantity = order.getProducts().get(p);
-            total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
-        }
-
-        order.setTotal(total);
-
-        //Check if order cost is above minimum order value
-        if (order.getTotal().compareTo(order.getStore().getMinimumOrderPrice()) < 0) {
-            logger.warn("Order cost must be above minimum order cost");
-            return null;
-        }
-
-        if (order.getDeliveryTip() != null){
-            order.setDeliveryTip(deliveryTip);
-            total = total.add(deliveryTip);
-        }
-
-        // Set all order fields with proper values
-        order.setStatus(Status.PENDING);
-        order.setPaymentMethod(paymentMethod);
-        order.setDate(new Date());
-        order.setTotal(total);
-
-        orderRepository.update(order);
-
-        return create(order);
     }
 
     @Override
@@ -153,8 +181,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     private LocalTime[][] check(DayOfWeek currentDay, Order order) {
-        LocalTime[][] checkSchedule = new LocalTime[1][1];
-
+        LocalTime[][] checkSchedule = new LocalTime[1][2];
 
         if (currentDay == DayOfWeek.MONDAY) {
             checkSchedule[0][0] = order.getStore().getSchedule()[0][0];

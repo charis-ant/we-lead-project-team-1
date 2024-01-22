@@ -20,5 +20,4 @@ public class Address extends BaseModel{
     private String city;
     private Integer floor;
     private PropertyType propertyType;
-
 }

@@ -9,7 +9,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Map;
+import java.util.HashMap;
 
 @Getter
 @Setter
@@ -21,8 +21,7 @@ public class Order extends BaseModel{
     private Store store;
     private Account account;
     private Date date;
-    private Map<Product, Integer> products; //Maybe we would need to add Id not Product
-    //Need to Add Hash and Equals properties
+    private HashMap<Product, Integer> products;
     private Integer orderRating;
     private BigDecimal total;
     private PaymentMethod paymentMethod;

@@ -1,12 +1,11 @@
 package gr.athtech.spring.app.bootstrap;
 
 import gr.athtech.spring.app.base.BaseComponent;
-import gr.athtech.spring.app.model.Account;
-import gr.athtech.spring.app.model.Order;
-import gr.athtech.spring.app.model.PaymentMethod;
+import gr.athtech.spring.app.model.*;
 import gr.athtech.spring.app.service.AccountService;
 import gr.athtech.spring.app.service.OrderService;
 import gr.athtech.spring.app.service.ProductService;
+import gr.athtech.spring.app.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +20,7 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
     private final AccountService accountService;
     private final OrderService orderService;
     private final ProductService productService;
+    private final StoreService storeService;
     @Override
     public void run(String... args) throws Exception {
         // Get all accounts
@@ -32,18 +32,16 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
 
         // Load customer and create an order by adding/updating/removing content before checking it out
         Account firstCustomer = accountService.findByEmail("sixseasonsandamovie@gmail.com");
-        Order firstOrder = orderService.initiateOrder(firstCustomer);
+        Store orderStore = storeService.findByName("Burger House");
 
-        // Add item(s) both existing and non-existing
+        Order firstOrder = orderService.initiateOrder(firstCustomer, orderStore);
+
+        // Add item(s)
         orderService.addItem(firstOrder, productService.findByName("Hamburger"));
         orderService.addItem(firstOrder, productService.findByName("Cheeseburger"));
         orderService.addItem(firstOrder, productService.findByName("Veggie"));
         orderService.addItem(firstOrder, productService.findByName("Veggie"));
         orderService.addItem(firstOrder, productService.findByName("Veggie"));
-        // Add a non-existing product
-        orderService.addItem(firstOrder, productService.findByName("SN1000-0008"));
-        // Update item(s)
-        orderService.addItem(firstOrder, productService.findByName("Cheeseburger"));
         // Remove item(s)
         orderService.removeItem(firstOrder, productService.findByName("Veggie"));
         // Checkout order

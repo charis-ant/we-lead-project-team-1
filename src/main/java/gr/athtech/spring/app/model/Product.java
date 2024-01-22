@@ -19,6 +19,5 @@ public class Product extends BaseModel {
     private String name;
     private BigDecimal price;
     private String description;
-    private Store store;
     private ProductCategory productCategory;
 }

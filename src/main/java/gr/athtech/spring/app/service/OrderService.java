@@ -5,7 +5,7 @@ import gr.athtech.spring.app.model.*;
 import java.math.BigDecimal;
 
 public interface OrderService extends BaseService<Order, Long> {
-    Order initiateOrder(Account account);
+    Order initiateOrder(Account account, Store store);
 
     void addItem(Order order, Product product);
 
@@ -13,7 +13,7 @@ public interface OrderService extends BaseService<Order, Long> {
 
     void emptyOrder(Account account, Order order);
 
-    Order checkout(Order order, PaymentMethod paymentMethod, BigDecimal deliveryTip);
+    void checkout(Order order, PaymentMethod paymentMethod, BigDecimal deliveryTip);
 
     void changeStatus(Order order, Status status);
 

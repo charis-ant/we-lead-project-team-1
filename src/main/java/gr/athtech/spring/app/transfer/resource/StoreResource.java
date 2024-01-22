@@ -1,5 +1,6 @@
 package gr.athtech.spring.app.transfer.resource;
 
+import gr.athtech.spring.app.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +21,8 @@ public class StoreResource extends BaseResource {
     @NotNull(message = "Address cannot be null")
     private AddressResource address;
 
-//    private ArrayList<Product> products;   need to add this
+    @NotNull(message = "Products cannot be null")
+    private ArrayList<Product> products;
 
     @NotNull(message = "Phone cannot be null")
     @Pattern(regexp = "^69\\d{8}$", message = "The phone number format is not correct")
