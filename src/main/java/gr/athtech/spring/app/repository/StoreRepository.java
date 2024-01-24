@@ -10,7 +10,7 @@ import java.util.List;
 public interface StoreRepository extends BaseRepository<Store, Long> {
     Store findByName(String name);
 
-    List<Store> findByCategory(StoreCategory storeCategory);
+    List<Store> findByStoreCategory(StoreCategory storeCategory);
 
     //void changeSchedule(Store store, DayOfWeek day, LocalTime opening, LocalTime closing);
 }

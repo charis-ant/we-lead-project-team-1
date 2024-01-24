@@ -1,5 +1,6 @@
 package gr.athtech.spring.app.repository;
 
+import gr.athtech.spring.app.model.Product;
 import gr.athtech.spring.app.model.Store;
 import gr.athtech.spring.app.model.StoreCategory;
 import org.springframework.stereotype.Repository;
@@ -33,11 +34,13 @@ public class StoreRepositoryImpl extends BaseRepositoryImpl<Store> implements St
     }
 
     @Override
-    public List<Store> findByCategory(StoreCategory storeCategory) {
-        return storage.values()
+    public List<Store> findByStoreCategory(StoreCategory storeCategory) {
+        List<Store> stores = storage.values()
                 .stream()
                 .filter(s -> s.getStoreCategories().contains(storeCategory))
-                .collect(Collectors.toList());
+                .toList();
+
+        return stores.isEmpty() ? null : stores;
     }
 
     //changeSchedule

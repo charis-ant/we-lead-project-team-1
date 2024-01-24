@@ -4,7 +4,6 @@ import gr.athtech.spring.app.model.Account;
 import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.repository.AccountRepository;
 import gr.athtech.spring.app.repository.BaseRepository;
-import gr.athtech.spring.app.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +26,18 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         return accountRepository.findByEmail(email);
     }
 
-    public Account findByPhone(final Integer phone) {
+    public Account findByPhone(final String phone) {
         return accountRepository.findByPhone(phone);
     }
 
     //Check this again!
-    public boolean signup(Account account) {
+    public void signup(Account account) {
         //1) Check through Repository account already exists
         if (accountRepository.exists(account)) {
             logger.warn("User already exists");
-            return false;
         } else {
             //2) Create new account
             accountRepository.create(account);
-            return true;
         }
     }
 

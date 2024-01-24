@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class Store extends BaseModel{
     private String name;
     private Address address;
-    private Integer telephoneNumber;
+    private String telephoneNumber;
     private String description;
     private Double storeRating;
     private ArrayList<Product> products;

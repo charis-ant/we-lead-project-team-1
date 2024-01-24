@@ -25,13 +25,14 @@ public class StoreResource extends BaseResource {
     private ArrayList<Product> products;
 
     @NotNull(message = "Phone cannot be null")
-    @Pattern(regexp = "^69\\d{8}$", message = "The phone number format is not correct")
-    private Integer telephoneNumber;
+    @Pattern(regexp = "^(69\\d{8}|210\\d{7})$", message = "The phone number format is not correct")
+    private String telephoneNumber;
 
     private String description;
 
-    @NotNull(message = "Store Rating cannot be null") //To be discussed <3
-    @Pattern(regexp = "^[1-5](\\.\\d{2})?$", message = "The Store Rating format is not correct")
+    @DecimalMin(value = "1.00", message = "Store rating must be at least 1.00")
+    @DecimalMax(value = "5.00", message = "Store rating must be at most 5.00")
+    @Digits(integer = 1, fraction = 2, message = "Invalid store rating format")
     private Double storeRating;
 
     private ArrayList<StoreCategory> storeCategories;

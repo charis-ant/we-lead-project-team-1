@@ -55,11 +55,11 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                 .sorted(Comparator.comparing(Product::getId))
                 .forEach(p -> logger.debug("{}. {}", p.getId(), p));
 
-        Store newStore = storeService.create(Store.builder().name("Burger House")
+        storeService.create(Store.builder().name("Burger House")
                 .address(addressService.create(Address.builder()
                         .streetName("Ermou").streetNumber(120).postalCode(10000)
                         .city("Athens").floor(0).propertyType(PropertyType.WORK).build()))
-                .telephoneNumber(2100000000).description("best burgers in town")
+                .telephoneNumber("2100000000").description("best burgers in town")
                 .storeRating(null).storeCategories(new ArrayList<>(List.of(StoreCategory.BURGER)))
                 .schedule(initStoreSchedule()).products(new ArrayList<>(productsCreated))
                 .minimumOrderPrice(BigDecimal.valueOf(6)).deliveryCost(BigDecimal.valueOf(2))
@@ -70,7 +70,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
         List<Account> accounts = List.of(
                 Account.builder().email("martybyrde@gmail.com")
                         .firstname("Marty").lastname("Byrde")
-                        .phone(697777777).password("1234").accountCategory(AccountCategory.CUSTOMER)
+                        .telephoneNumber("6977777777").password("1234").accountCategory(AccountCategory.CUSTOMER)
                         .addresses(new ArrayList<>(List.of(addressService.create(Address.builder()
                                 .streetName("Stadiou").streetNumber(10)
                                 .postalCode(10000).propertyType(PropertyType.HOME)
@@ -78,7 +78,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                         .build(),
                 Account.builder().email("sixseasonsandamovie@gmail.com")
                         .firstname("Abed").lastname("Nadir")
-                        .phone(698888888).password("54321").accountCategory(AccountCategory.CUSTOMER)
+                        .telephoneNumber("6988888888").password("54321").accountCategory(AccountCategory.CUSTOMER)
                         .addresses(new ArrayList<> (List.of(addressService.create(Address.builder()
                                 .streetName("Athinas").streetNumber(23)
                                 .postalCode(10000).propertyType(PropertyType.WORK)

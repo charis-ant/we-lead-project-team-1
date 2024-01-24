@@ -1,9 +1,11 @@
 package gr.athtech.spring.app.repository;
 
 
+import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.model.Product;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -29,5 +31,15 @@ public class ProductRepositoryImpl extends BaseRepositoryImpl<Product> implement
                 .filter(c -> name.equalsIgnoreCase(c.getName()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Product> findByProductCategory(Long productCategoryId) {
+        List<Product> products = storage.values()
+                .stream()
+                .filter(p -> productCategoryId.equals(p.getProductCategory().getId()))
+                .toList();
+
+        return products.isEmpty() ? null : products;
     }
 }

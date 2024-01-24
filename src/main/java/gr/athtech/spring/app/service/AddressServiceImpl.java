@@ -2,7 +2,6 @@ package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Account;
 import gr.athtech.spring.app.model.Address;
-import gr.athtech.spring.app.repository.AccountRepository;
 import gr.athtech.spring.app.repository.AddressRepository;
 import gr.athtech.spring.app.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;

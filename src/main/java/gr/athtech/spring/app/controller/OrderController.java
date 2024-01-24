@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("orders")
 @RequiredArgsConstructor
 public class OrderController extends BaseController<Order, OrderResource> {
     private final OrderService orderService;

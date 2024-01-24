@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface AccountService extends BaseService<Account, Long> {
     Account findByEmail(String email);
-    Account findByPhone(Integer phone);
+    Account findByPhone(String phone);
 
-    boolean signup(Account account);
+    void signup(Account account);
 
     void changePassword(Long id, String password);
 

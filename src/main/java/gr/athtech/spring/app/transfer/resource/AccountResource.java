@@ -26,8 +26,8 @@ public class AccountResource extends BaseResource {
     private String lastname;
 
     @NotNull(message = "Phone number cannot be null")
-    @Pattern(regexp = "^69\\d{8}$", message = "The phone number format is not correct")
-    private String phone;
+    @Pattern(regexp = "^(69\\d{8}|210\\d{7})$", message = "The phone number format is not correct")
+    private String telephoneNumber;
 
     @NotNull(message = "Address cannot be null")
     private ArrayList<AddressResource> addresses;

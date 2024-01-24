@@ -31,16 +31,16 @@ public class AccountRepositoryImpl extends BaseRepositoryImpl<Account> implement
     }
 
     @Override
-    public Account findByPhone(final Integer phone) {
+    public Account findByPhone(final String phone) {
         return storage.values()
                 .stream()
-                .filter(c -> phone.equals(c.getPhone()))
+                .filter(c -> phone.equals(c.getTelephoneNumber()))
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public boolean signup(final String email, final Integer phone, final String password) {
+    public void signup(final String email, final String phone, final String password) {
         if (email != null && findByEmail(email) != null) {
             throw new RuntimeException("Email already exists");
         }
@@ -52,7 +52,5 @@ public class AccountRepositoryImpl extends BaseRepositoryImpl<Account> implement
         if (password.length() < 8) {
             throw new RuntimeException("Password must be at least 8 characters long");
         }
-
-        return true;
     }
 }

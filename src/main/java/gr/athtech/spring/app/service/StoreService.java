@@ -10,7 +10,9 @@ import java.util.List;
 public interface StoreService extends BaseService<Store, Long> {
     Store findByName(String name);
 
-    List<Store> findByCategory(StoreCategory storeCategory);
+    //Store create(Store store);
+
+    List<Store> findByStoreCategory(StoreCategory storeCategory);
 
     void changeSchedule(Long id, DayOfWeek day, LocalTime opening, LocalTime closing);
 

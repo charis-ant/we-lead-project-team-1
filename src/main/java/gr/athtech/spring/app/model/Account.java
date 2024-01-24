@@ -20,7 +20,7 @@ public class Account extends BaseModel {
     private String password;
     private String firstname;
     private String lastname;
-    private Integer phone;
+    private String telephoneNumber;
     private ArrayList<Address> addresses;
     private AccountCategory accountCategory;
 }

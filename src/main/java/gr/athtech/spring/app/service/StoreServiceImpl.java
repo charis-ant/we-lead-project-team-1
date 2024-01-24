@@ -4,7 +4,6 @@ import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.model.Store;
 import gr.athtech.spring.app.model.StoreCategory;
 import gr.athtech.spring.app.repository.BaseRepository;
-import gr.athtech.spring.app.repository.OrderRepository;
 import gr.athtech.spring.app.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
     private final StoreRepository storeRepository;
-    private final OrderRepository orderRepository;
     private final OrderService orderService;
+    private final ProductService productService;
+    private final AddressService addressService;
 
     @Override
     protected BaseRepository<Store, Long> getRepository() {
@@ -31,9 +31,18 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
         return storeRepository.findByName(name);
     }
 
+//    @Override
+//    public Store create(Store store) {
+//        var address = store.getAddress();
+//        var products = store.getProducts();
+//        addressService.create(address);
+//        productService.createAll(products);
+//        return storeRepository.create(store);
+//    }
+
     @Override
-    public List<Store> findByCategory(StoreCategory storeCategory) {
-        return storeRepository.findByCategory(storeCategory);
+    public List<Store> findByStoreCategory(StoreCategory storeCategory) {
+        return storeRepository.findByStoreCategory(storeCategory);
     }
 
     @Override
@@ -91,7 +100,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 
     @Override
     public List<Store> findMostFamousStoresByCategory(StoreCategory storeCategory) {
-        List<Store> stores = storeRepository.findByCategory(storeCategory);
+        List<Store> stores = storeRepository.findByStoreCategory(storeCategory);
         stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
         int topCount = Math.min(5, stores.size());
         return stores.subList(0, topCount);
