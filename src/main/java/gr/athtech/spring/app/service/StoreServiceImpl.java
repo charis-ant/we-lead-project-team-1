@@ -31,14 +31,14 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
         return storeRepository.findByName(name);
     }
 
-//    @Override
-//    public Store create(Store store) {
-//        var address = store.getAddress();
-//        var products = store.getProducts();
-//        addressService.create(address);
-//        productService.createAll(products);
-//        return storeRepository.create(store);
-//    }
+    @Override
+    public Store create(Store store) {
+        var address = store.getAddress();
+        var products = store.getProducts();
+        addressService.create(address);
+        productService.createAll(products);
+        return storeRepository.create(store);
+    }
 
     @Override
     public List<Store> findByStoreCategory(StoreCategory storeCategory) {

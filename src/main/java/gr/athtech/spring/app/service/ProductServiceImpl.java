@@ -30,13 +30,13 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
         return productRepository.findByProductCategory(productCategoryId);
     }
 
-//    @Override
-//    public Product create(final Product product, final Long storeId) {
-//        var store = storeService.get(storeId);
-//        var productCategory = product.getProductCategory();
-//        productCategoryService.create(productCategory);
-//        store.getProducts().add(product);
-//        storeService.update(store);
-//        return productRepository.create(product);
-//    }
+    @Override
+    public Product create(final Product product, final Long storeId) {
+        var store = storeService.get(storeId);
+        var productCategory = product.getProductCategory();
+        productCategoryService.create(productCategory);
+        store.getProducts().add(product);
+        storeService.update(store);
+        return productRepository.create(product);
+    }
 }

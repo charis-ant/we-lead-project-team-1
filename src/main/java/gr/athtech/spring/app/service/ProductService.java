@@ -10,5 +10,5 @@ public interface ProductService extends BaseService<Product, Long> {
 
     List<Product> findByProductCategory(Long productCategoryId);
 
-    //Product create(Product product, Long storeId);
+    Product create(Product product, Long storeId);
 }

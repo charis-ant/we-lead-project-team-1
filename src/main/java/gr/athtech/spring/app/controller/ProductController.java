@@ -33,18 +33,18 @@ public class ProductController extends BaseController<Product, ProductResource> 
         return productMapper;
     }
 
-//    @PostMapping(params = "storeId")
-//    public ResponseEntity<ApiResponse<ProductResource>> create(@RequestBody final ProductResource productResource,
-//                                                               @RequestParam Long storeId) {
-//        var product = productMapper.toDomain(productResource);
-//        return new ResponseEntity<>(
-//                ApiResponse.<ProductResource>builder()
-//                        .data(getMapper().toResource(productService.create(product, storeId)))
-//                        .build(),
-//                getNoCacheHeaders(),
-//                HttpStatus.CREATED
-//        );
-//    }
+    @PostMapping(params = "storeId")
+    public ResponseEntity<ApiResponse<ProductResource>> create(@RequestBody final ProductResource productResource,
+                                                               @RequestParam Long storeId) {
+        var product = productMapper.toDomain(productResource);
+        return new ResponseEntity<>(
+                ApiResponse.<ProductResource>builder()
+                        .data(getMapper().toResource(productService.create(product, storeId)))
+                        .build(),
+                getNoCacheHeaders(),
+                HttpStatus.CREATED
+        );
+    }
 
     @GetMapping(params = {"productCategoryId"})
     public ResponseEntity<ApiResponse<List<ProductResource>>> findByProductCategory(@RequestParam Long productCategoryId) {
