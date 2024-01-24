@@ -19,6 +19,7 @@ import java.util.List;
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
     private final StoreRepository storeRepository;
     private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Override
     protected BaseRepository<Store, Long> getRepository() {
@@ -68,7 +69,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     @Override
     public void calculateStoreRating(Long id) {
         Store store = storeRepository.get(id);
-        List<Order> orders = orderRepository.findAllStoreOrders(store);
+        List<Order> orders = orderService.findAllStoreOrders(store);
         int sum = 0;
         for (Order o: orders) {
             sum = sum + o.getOrderRating();

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProductServiceImpl extends BaseServiceImpl<Product> implements ProductService {
     private final ProductRepository productRepository;
-    private final ProductCategoryService productCategoryService;
 
     @Override
     protected BaseRepository<Product, Long> getRepository() {

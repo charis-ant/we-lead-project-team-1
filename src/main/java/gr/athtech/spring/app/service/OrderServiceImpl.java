@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -162,6 +163,16 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     public void rateOrder(Order order, Integer orderRating) {
         order.setOrderRating(orderRating);
         orderRepository.update(order);
+    }
+
+    @Override
+    public List<Order> findAllAccountOrders(Account account) {
+        return orderRepository.findAllAccountOrders(account);
+    }
+
+    @Override
+    public List<Order> findAllStoreOrders(Store store) {
+        return orderRepository.findAllStoreOrders(store);
     }
 
     private boolean checkNullability(Order order, Product product) {

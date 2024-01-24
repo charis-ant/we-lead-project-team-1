@@ -48,7 +48,6 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                         .productCategory( newProductCategory).build()
         );
 
-
         var productsCreated = productService.createAll(products);
         logger.info("Created {} products.", productsCreated.size());
 

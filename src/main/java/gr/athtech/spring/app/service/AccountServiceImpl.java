@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AccountServiceImpl extends BaseServiceImpl<Account> implements AccountService {
     private final AccountRepository accountRepository;
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @Override
     protected BaseRepository<Account, Long> getRepository() {
@@ -63,7 +63,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     @Override
     public List<Order> viewPlacedOrders(Long id) {
         Account account = accountRepository.get(id);
-        return orderRepository.findAllAccountOrders(account);
+        return orderService.findAllAccountOrders(account);
     }
 
     //add session

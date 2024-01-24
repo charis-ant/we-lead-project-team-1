@@ -9,7 +9,8 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends BaseRepository<Order, Long>{
-    List<Order> findAllStoreOrders(Store store);
 
     List<Order> findAllAccountOrders(Account account);
+
+    List<Order> findAllStoreOrders(Store store);
 }

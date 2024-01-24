@@ -25,20 +25,20 @@ public class OrderRepositoryImpl extends BaseRepositoryImpl<Order> implements Or
     }
 
     @Override
-    public List<Order> findAllStoreOrders(Store store) {
+    public List<Order> findAllAccountOrders(Account account) {
         List<Order> orders = storage.values()
                 .stream()
-                .filter(o -> store.equals(o.getStore()))
+                .filter(o -> account.equals(o.getAccount()))
                 .toList();
 
         return orders.isEmpty() ? null : orders;
     }
 
     @Override
-    public List<Order> findAllAccountOrders(Account account) {
+    public List<Order> findAllStoreOrders(Store store) {
         List<Order> orders = storage.values()
                 .stream()
-                .filter(o -> account.equals(o.getAccount()))
+                .filter(o -> store.equals(o.getStore()))
                 .toList();
 
         return orders.isEmpty() ? null : orders;
