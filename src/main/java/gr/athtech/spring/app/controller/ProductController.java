@@ -7,7 +7,6 @@ import gr.athtech.spring.app.model.Product;
 import gr.athtech.spring.app.service.BaseService;
 import gr.athtech.spring.app.service.ProductService;
 import gr.athtech.spring.app.transfer.ApiResponse;
-import gr.athtech.spring.app.transfer.resource.AccountResource;
 import gr.athtech.spring.app.transfer.resource.ProductResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
