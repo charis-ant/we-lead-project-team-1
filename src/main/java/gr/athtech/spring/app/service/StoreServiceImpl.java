@@ -1,6 +1,7 @@
 package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Order;
+import gr.athtech.spring.app.model.Product;
 import gr.athtech.spring.app.model.Store;
 import gr.athtech.spring.app.model.StoreCategory;
 import gr.athtech.spring.app.repository.BaseRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
     private final StoreRepository storeRepository;
     private final OrderService orderService;
+    private final AddressService addressService;
 
     @Override
     protected BaseRepository<Store, Long> getRepository() {
@@ -27,6 +29,13 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     @Override
     public Store findByName(String name) {
         return storeRepository.findByName(name);
+    }
+
+    @Override
+    public Store create(final Store store) {
+        var address = store.getAddress();
+        addressService.create(address);
+        return storeRepository.create(store);
     }
 
     @Override

@@ -63,7 +63,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         return orderService.findAllAccountOrders(account);
     }
 
-    //add session
     @Override
     public boolean login(final String email, String password) {
         // Retrieve user by username from the repository
@@ -71,12 +70,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
         // Check if the user exists and the provided password is correct
         return account != null && password.equals(account.getPassword());
-    }
-
-    //pending
-    @Override
-    public void logout() {
-
     }
 
 }

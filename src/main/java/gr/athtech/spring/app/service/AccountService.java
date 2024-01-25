@@ -17,5 +17,4 @@ public interface AccountService extends BaseService<Account, Long> {
 
     //Pending Methods
     boolean login(String email, String password);
-    void logout();
 }
