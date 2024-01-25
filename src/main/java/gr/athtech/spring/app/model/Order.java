@@ -10,6 +10,8 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,6 +24,7 @@ public class Order extends BaseModel{
     private Store store;
     private Account account;
     private Date date;
+//    private final Set<OrderItem> orderItems = new HashSet<>();
     private HashMap<Product, Integer> products;
     private Integer orderRating;
     private BigDecimal total;
