@@ -4,6 +4,7 @@ import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.model.Product;
 import gr.athtech.spring.app.model.Store;
 import gr.athtech.spring.app.model.StoreCategory;
+import gr.athtech.spring.app.repository.AccountRepository;
 import gr.athtech.spring.app.repository.BaseRepository;
 import gr.athtech.spring.app.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.List;
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
     private final StoreRepository storeRepository;
     private final OrderService orderService;
-    private final AddressService addressService;
+    private final AccountService accountService;
 
     @Override
     protected BaseRepository<Store, Long> getRepository() {
@@ -31,12 +32,12 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
         return storeRepository.findByName(name);
     }
 
-    @Override
-    public Store create(final Store store) {
-        var address = store.getAddress();
-        addressService.create(address);
-        return storeRepository.create(store);
-    }
+//    @Override
+//    public Store create(final Store store) {
+//        var address = store.getAddress();
+////        addressService.create(address);
+//        return storeRepository.create(store);
+//    }
 
     @Override
     public List<Store> findByStoreCategory(StoreCategory storeCategory) {

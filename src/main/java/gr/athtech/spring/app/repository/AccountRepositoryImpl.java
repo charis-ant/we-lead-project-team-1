@@ -1,6 +1,7 @@
 package gr.athtech.spring.app.repository;
 
 import gr.athtech.spring.app.model.Account;
+import gr.athtech.spring.app.model.Address;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,4 +54,5 @@ public class AccountRepositoryImpl extends BaseRepositoryImpl<Account> implement
             throw new RuntimeException("Password must be at least 8 characters long");
         }
     }
+
 }

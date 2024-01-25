@@ -1,5 +1,6 @@
 package gr.athtech.spring.app.service;
 
+import gr.athtech.spring.app.model.Address;
 import gr.athtech.spring.app.model.Store;
 import gr.athtech.spring.app.model.StoreCategory;
 

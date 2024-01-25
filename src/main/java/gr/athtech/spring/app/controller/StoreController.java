@@ -47,4 +47,5 @@ public class StoreController extends BaseController<Store, StoreResource> {
                         .data(storeMapper.toResources(storeService.findByStoreCategory(storeCategory)))
                         .build());
     }
+
 }

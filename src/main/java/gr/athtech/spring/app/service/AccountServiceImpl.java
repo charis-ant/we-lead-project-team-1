@@ -1,6 +1,7 @@
 package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Account;
+import gr.athtech.spring.app.model.Address;
 import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.repository.AccountRepository;
 import gr.athtech.spring.app.repository.BaseRepository;
@@ -70,6 +71,39 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
         // Check if the user exists and the provided password is correct
         return account != null && password.equals(account.getPassword());
+    }
+
+
+    @Override
+    public void addAddress(Long accountId, Address address) {
+        var account = get(accountId);
+
+        if (address.getStreetName() == null || address.getStreetNumber() == null || address.getPostalCode() == null) {
+            throw new IllegalArgumentException("Address field cannot be null");
+        } else {
+            if (account.getAddresses().contains(address)) {
+                throw new IllegalStateException("Address already exists for the account");
+            } else {
+                account.getAddresses().add(address);
+                update(account);
+            }
+        }
+
+    }
+
+    @Override
+    public void removeAddress(Long accountId, Address address) {
+        var account = get(accountId);
+        if (account.getAddresses().contains(address)) {
+            if (account.getAddresses().size() >= 2) {
+                accountRepository.deleteById(address.getId());
+                account.getAddresses().remove(address);
+                update(account);
+            } else {
+                throw new NullPointerException("Address field cannot be null");
+            }
+
+        }
     }
 
 }
