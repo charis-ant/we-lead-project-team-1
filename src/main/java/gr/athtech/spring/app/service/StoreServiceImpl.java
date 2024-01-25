@@ -18,8 +18,6 @@ import java.util.List;
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
     private final StoreRepository storeRepository;
     private final OrderService orderService;
-    private final ProductService productService;
-    private final AddressService addressService;
 
     @Override
     protected BaseRepository<Store, Long> getRepository() {
@@ -29,15 +27,6 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     @Override
     public Store findByName(String name) {
         return storeRepository.findByName(name);
-    }
-
-    @Override
-    public Store create(Store store) {
-        var address = store.getAddress();
-        var products = store.getProducts();
-        addressService.create(address);
-        productService.createAll(products);
-        return storeRepository.create(store);
     }
 
     @Override
