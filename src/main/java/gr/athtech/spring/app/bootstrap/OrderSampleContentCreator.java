@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.List;
 
 @Component
 @Profile("generate-orders")
@@ -34,17 +36,34 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
         Account firstCustomer = accountService.findByEmail("sixseasonsandamovie@gmail.com");
         Store orderStore = storeService.findByName("Burger House");
 
+
+
         Order firstOrder = orderService.initiateOrder(firstCustomer, orderStore);
 
         // Add item(s)
-        orderService.addItem(firstOrder, productService.findByName("Hamburger"));
-        orderService.addItem(firstOrder, productService.findByName("Cheeseburger"));
-        orderService.addItem(firstOrder, productService.findByName("Veggie"));
-        orderService.addItem(firstOrder, productService.findByName("Veggie"));
-        orderService.addItem(firstOrder, productService.findByName("Veggie"));
+        orderService.addItem(firstOrder, productService.findByName("Hamburger"),1);
+        orderService.addItem(firstOrder, productService.findByName("Cheeseburger"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1 );
+        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
         // Remove item(s)
         orderService.removeItem(firstOrder, productService.findByName("Veggie"));
         // Checkout order
         orderService.checkout(firstOrder, PaymentMethod.CARD, BigDecimal.valueOf(0.5));
+
+
+
+
+        List<Order> orders = List.of(
+                Order.builder().store(orderStore).account(firstCustomer).orderRating(4).build()
+        );
+
+
+        var ordersCreated = orderService.createAll(orders);
+        logger.info("Created {} orders.",ordersCreated.size());
+        ordersCreated.stream()
+                .sorted(Comparator.comparing(Order::getId))
+                .forEach(o -> logger.debug("{}. {}", o.getId(), o));
+
     }
 }

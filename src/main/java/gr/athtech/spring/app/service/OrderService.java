@@ -8,7 +8,7 @@ import java.util.List;
 public interface OrderService extends BaseService<Order, Long> {
     Order initiateOrder(Account account, Store store);
 
-    void addItem(Order order, Product product);
+    void addItem(final Order order, final Product product, final int quantity);
 
     void removeItem(Order order, Product product);
 
@@ -23,4 +23,5 @@ public interface OrderService extends BaseService<Order, Long> {
     List<Order> findAllAccountOrders(Account account);
 
     List<Order> findAllStoreOrders(Store store);
+
 }

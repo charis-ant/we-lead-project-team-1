@@ -10,10 +10,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +28,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     @Override
-    public void addItem(final Order order, final Product product) {
+    public void addItem(final Order order, final Product product, final int quantity) {
         DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
         LocalTime currentTime = LocalTime.now();
 
@@ -42,34 +39,30 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
                 return;
             }
 
-            if (order.getProducts() == null) {
-                logger.info("checkpoint 1");
-                HashMap<Product, Integer> newProducts = new HashMap<>();
-                newProducts.put(product, 1);
-                order.setProducts(newProducts);
-            }   else {
-                HashMap<Product, Integer> products = order.getProducts();
-                boolean productFound = false;
-                for (Map.Entry<Product, Integer> entry : products.entrySet()) {
-                    // If product is already contained in the order,
-                    // don't add it again, just increase the quantity accordingly
-                    if (entry.getKey().getId().equals(product.getId())) {
-                        products.put(entry.getKey(), products.getOrDefault(entry.getKey(), 0)+1);
-                        productFound = true;
-                        break;
-                    }
-                }
+            boolean increasedQuantity = false;
 
-                if (!productFound) {
-                    products.put(product,1);
-                    order.setProducts(products);
+            // If product is already contained in the order, don't add it again, just increase the quantity accordingly
+            for (OrderItem oi : order.getOrderItems()) {
+                if (oi.getProduct().getId().equals(product.getId())) {
+                    oi.setQuantity(oi.getQuantity() + quantity);
+                    increasedQuantity = true;
+                    break;
                 }
             }
+
+            if (!increasedQuantity) {
+                order.getOrderItems().add(newOrderItem(order, product, quantity));
+            }
+
             logger.info("Product added to Order");
         } else {
             logger.warn("Store closed!");
         }
-    }
+
+
+
+
+        }
 
     @Override
     public void removeItem(Order order, Product product) {
@@ -83,15 +76,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
                 return;
             }
 
-            HashMap<Product, Integer> products = order.getProducts();
+            order.getOrderItems().removeIf(oi -> oi.getProduct().getId().equals(product.getId()));
 
-            if (products.containsKey(product)){
-                if (products.get(product).equals(1)) {
-                    products.remove(product);
-                }else{
-                    products.put(product, products.get(product) - 1);
-                }
-            }
             logger.info("Product removed from Order");
         } else {
         logger.warn("Store closed!");
@@ -123,10 +109,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
             BigDecimal total = BigDecimal.ZERO;
 
-            for (Product p : order.getProducts().keySet()) {
-                BigDecimal price = p.getPrice();
-                Integer quantity = order.getProducts().get(p);
-                total = total.add(price.multiply(BigDecimal.valueOf(quantity)));
+            for (OrderItem o : order.getOrderItems()) {
+                BigDecimal price = o.getPrice();
+                total = total.add(price);
             }
 
             order.setTotal(total);
@@ -188,7 +173,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     private boolean validate(Order order) {
-        return order != null && !order.getProducts().isEmpty() && order.getAccount() != null;
+        return order != null && !order.getOrderItems().isEmpty() && order.getAccount() != null;
     }
 
     private LocalTime[][] check(DayOfWeek currentDay, Order order) {
@@ -218,5 +203,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         }
 
         return checkSchedule;
+    }
+
+    private OrderItem newOrderItem(Order order, Product product, int quantity) {
+        return OrderItem.builder().product(product).quantity(quantity).price(product.getPrice()).order(order).build();
     }
 }
