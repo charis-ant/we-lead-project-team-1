@@ -23,15 +23,6 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
     private final AccountService accountService;
     private final StoreService storeService;
 
-    private LocalTime[][] initStoreSchedule() {
-        LocalTime[][] storeSchedule = new LocalTime[7][2];
-        for (int day = 0; day < 7; day++) {
-            storeSchedule[day][0] = LocalTime.of(9, 0);
-            storeSchedule[day][1] = LocalTime.of(23, 0);
-        }
-        return storeSchedule;
-    }
-
     @Override
     public void run(String... args) throws Exception {
         ProductCategory newProductCategory = productCategoryService.create(ProductCategory.builder().name("burgers").build());
@@ -58,8 +49,8 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                 .address(Address.builder().streetName("Ermou").streetNumber(120).postalCode(10000)
                         .city("Athens").floor(0).propertyType(PropertyType.WORK).build())
                 .telephoneNumber("2100000000").description("best burgers in town")
-                .storeRating(null).storeCategories(new ArrayList<>(List.of(StoreCategory.BURGER)))
-                .schedule(initStoreSchedule()).products(new ArrayList<>(productsCreated))
+                .storeRating(null).storeCategory(StoreCategory.BURGER)
+                .products(new ArrayList<>(productsCreated))
                 .minimumOrderPrice(BigDecimal.valueOf(6)).deliveryCost(BigDecimal.valueOf(2))
                 .build()
         );

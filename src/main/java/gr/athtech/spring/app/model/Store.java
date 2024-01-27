@@ -1,11 +1,8 @@
 package gr.athtech.spring.app.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -17,15 +14,43 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
+@Entity
+@Table(name = "STORES")
+@SequenceGenerator(name = "idGenerator", sequenceName = "STORES_SEQ", initialValue = 1, allocationSize = 1)
 public class Store extends BaseModel{
+    @NotNull(message = "Store name cannot be null")
+    @Column(length = 20, nullable = false)
     private String name;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
     private Address address;
+
+    @Column(length = 10)
     private String telephoneNumber;
+
+    @NotNull
+    @Column(length = 50, nullable = false)
     private String description;
+
+    @NotNull
+    @Column(nullable = false)
     private Double storeRating;
-    private ArrayList<Product> products;
-    private ArrayList<StoreCategory> storeCategories;
-    private LocalTime[][] schedule = new LocalTime[7][2];
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private final ArrayList<Product> products = new ArrayList<>();
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private StoreCategory storeCategory;
+
+    @NotNull
+    @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal minimumOrderPrice;
+
+    @NotNull
+    @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal deliveryCost;
 }

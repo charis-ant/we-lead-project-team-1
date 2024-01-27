@@ -4,6 +4,7 @@ import gr.athtech.spring.app.model.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderService extends BaseService<Order, Long> {
     Order initiateOrder(Account account, Store store);
@@ -20,7 +21,9 @@ public interface OrderService extends BaseService<Order, Long> {
 
     void rateOrder(Order order, Integer orderRating);
 
-    List<Order> findAllAccountOrders(Account account);
+    void updateItem(Order order, Product product, int quantity);
+
+    Optional<Order> findAllAccountOrders(Account account);
 
     List<Order> findAllStoreOrders(Store store);
 

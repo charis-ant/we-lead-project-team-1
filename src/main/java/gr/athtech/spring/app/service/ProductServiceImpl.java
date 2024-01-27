@@ -1,9 +1,9 @@
 package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Product;
-import gr.athtech.spring.app.repository.BaseRepository;
 import gr.athtech.spring.app.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     private final ProductCategoryService productCategoryService;
 
     @Override
-    protected BaseRepository<Product, Long> getRepository() {
+    protected JpaRepository<Product, Long> getRepository() {
         return productRepository;
     }
 
@@ -27,7 +27,8 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 
     @Override
     public List<Product> findByProductCategory(Long productCategoryId) {
-        return productRepository.findByProductCategory(productCategoryId);
+
+        return productRepository.findByProductCategoryId(productCategoryId);
     }
 
     @Override
@@ -37,6 +38,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
         productCategoryService.create(productCategory);
         store.getProducts().add(product);
         storeService.update(store);
-        return productRepository.create(product);
+        return create(product);
     }
 }

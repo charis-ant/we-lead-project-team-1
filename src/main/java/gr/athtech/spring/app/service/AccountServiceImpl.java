@@ -4,12 +4,13 @@ import gr.athtech.spring.app.model.Account;
 import gr.athtech.spring.app.model.Address;
 import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.repository.AccountRepository;
-import gr.athtech.spring.app.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     private final OrderService orderService;
 
     @Override
-    protected BaseRepository<Account, Long> getRepository() {
+    protected JpaRepository<Account, Long> getRepository() {
         return accountRepository;
     }
 
@@ -27,40 +28,40 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         return accountRepository.findByEmail(email);
     }
 
-    public Account findByPhone(final String phone) {
-        return accountRepository.findByPhone(phone);
+    public Account findByTelephoneNumber(final String telephoneNumber) {
+        return accountRepository.findByTelephoneNumber(telephoneNumber);
     }
 
     //Check this again!
     public void signup(Account account) {
         //1) Check through Repository account already exists
-        if (accountRepository.exists(account)) {
+        if (!(findByEmail(account.getEmail()) == null)) {
             logger.warn("User already exists");
         } else {
             //2) Create new account
-            accountRepository.create(account);
+            create(account);
         }
     }
 
-    @Override
+    @Transactional
     public void changePassword(Long id, String password) {
-        Account account = accountRepository.get(id);
-        if (accountRepository.exists(account)) {
+        Account account = get(id);
+
+        if (!(findByEmail(account.getEmail()) == null)) {
             if (password == null) {
                 throw new IllegalArgumentException("Password cannot be null");
             }
             account.setPassword(password);
-            accountRepository.update(account);
-        }
-        else {
+            update(account);
+        } else {
             throw new NoSuchElementException("Account not found");
         }
-
     }
 
+    @Transactional
     @Override
-    public List<Order> viewPlacedOrders(Long id) {
-        Account account = accountRepository.get(id);
+    public Optional<Order> viewPlacedOrders(Long id) {
+        Account account = get(id);
         return orderService.findAllAccountOrders(account);
     }
 
@@ -73,7 +74,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         return account != null && password.equals(account.getPassword());
     }
 
-
+    @Transactional
     @Override
     public void addAddress(Long accountId, Address address) {
         var account = get(accountId);
@@ -91,6 +92,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     }
 
+    @Transactional
     @Override
     public void removeAddress(Long accountId, Address address) {
         var account = get(accountId);

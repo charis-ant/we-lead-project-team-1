@@ -5,17 +5,18 @@ import gr.athtech.spring.app.model.Address;
 import gr.athtech.spring.app.model.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountService extends BaseService<Account, Long> {
     Account findByEmail(String email);
 
-    Account findByPhone(String phone);
+    Account findByTelephoneNumber(String telephoneNumber);
 
     void signup(Account account);
 
     void changePassword(Long id, String password);
 
-    List<Order> viewPlacedOrders(Long id);
+    Optional<Order> viewPlacedOrders(Long id);
 
     //Pending Methods
     boolean login(String email, String password);

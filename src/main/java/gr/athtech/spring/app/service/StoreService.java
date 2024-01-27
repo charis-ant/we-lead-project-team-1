@@ -15,8 +15,6 @@ public interface StoreService extends BaseService<Store, Long> {
 
     List<Store> findByStoreCategory(StoreCategory storeCategory);
 
-    void changeSchedule(Long id, DayOfWeek day, LocalTime opening, LocalTime closing);
-
     void calculateStoreRating(Long id);
 
     List<Store> findMostFamousStores();

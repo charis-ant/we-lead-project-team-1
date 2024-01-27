@@ -25,3 +25,4 @@ public interface BaseService<T extends BaseModel, K> {
 
     Long count();
 }
+
