@@ -23,6 +23,7 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
     private final OrderService orderService;
     private final ProductService productService;
     private final StoreService storeService;
+
     @Override
     public void run(String... args) throws Exception {
         // Get all accounts
@@ -37,33 +38,17 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
         Store orderStore = storeService.findByName("Burger House");
 
 
-
         Order firstOrder = orderService.initiateOrder(firstCustomer, orderStore);
 
         // Add item(s)
-        orderService.addItem(firstOrder, productService.findByName("Hamburger"),1);
+        orderService.addItem(firstOrder, productService.findByName("Hamburger"), 1);
         orderService.addItem(firstOrder, productService.findByName("Cheeseburger"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1 );
+        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
         orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
         orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
         // Remove item(s)
         orderService.removeItem(firstOrder, productService.findByName("Veggie"));
         // Checkout order
         orderService.checkout(firstOrder, PaymentMethod.CARD, BigDecimal.valueOf(0.5));
-
-
-
-
-        List<Order> orders = List.of(
-                Order.builder().store(orderStore).account(firstCustomer).orderRating(4).build()
-        );
-
-
-        var ordersCreated = orderService.createAll(orders);
-        logger.info("Created {} orders.",ordersCreated.size());
-        ordersCreated.stream()
-                .sorted(Comparator.comparing(Order::getId))
-                .forEach(o -> logger.debug("{}. {}", o.getId(), o));
-
     }
 }

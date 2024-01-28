@@ -62,7 +62,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     @Override
     public Optional<Order> viewPlacedOrders(Long id) {
         Account account = get(id);
-        return orderService.findAllAccountOrders(account);
+        return orderService.findByAccount(account);
     }
 
     @Override

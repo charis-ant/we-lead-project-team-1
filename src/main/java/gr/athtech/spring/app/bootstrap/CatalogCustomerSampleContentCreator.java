@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,16 +25,20 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
     @Override
     public void run(String... args) throws Exception {
         ProductCategory newProductCategory = productCategoryService.create(ProductCategory.builder().name("burgers").build());
+        logger.info("Created {}.", newProductCategory);
 
         List<Product> products = List.of(
                 Product.builder().name("Hamburger").price(BigDecimal.valueOf(7)).description("classic hamburger")
-                        .productCategory( newProductCategory).build(),
-                Product.builder().name("Cheeseburger").price(BigDecimal.valueOf(8)).description("delicious cheeseburger")
-                        .productCategory( newProductCategory).build(),
-                Product.builder().name("Holy cow").price(BigDecimal.valueOf(10)).description("cheeseburger with a modern twist")
-                        .productCategory( newProductCategory).build(),
-                Product.builder().name("Veggie").price(BigDecimal.valueOf(9)).description("vegetarian burger")
-                        .productCategory( newProductCategory).build()
+                        .productCategory( newProductCategory).store(storeService.create(Store.builder().name(" House")
+                                        .address(Address.builder().streetName("Ermou").streetNumber(120).postalCode(10000)
+                                                .city("Athens").floor(0).propertyType(PropertyType.WORK).build())
+                                        .build())).build()
+//                Product.builder().name("Cheeseburger").price(BigDecimal.valueOf(8)).description("delicious cheeseburger")
+//                        .productCategory( newProductCategory).build(),
+//                Product.builder().name("Holy cow").price(BigDecimal.valueOf(10)).description("cheeseburger with a modern twist")
+//                        .productCategory( newProductCategory).build(),
+//                Product.builder().name("Veggie").price(BigDecimal.valueOf(9)).description("vegetarian burger")
+//                        .productCategory( newProductCategory).build()
         );
 
         var productsCreated = productService.createAll(products);
@@ -45,7 +48,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                 .sorted(Comparator.comparing(Product::getId))
                 .forEach(p -> logger.debug("{}. {}", p.getId(), p));
 
-        storeService.create(Store.builder().name("Burger House")
+        Store thestore = storeService.create(Store.builder().name("Burger House")
                 .address(Address.builder().streetName("Ermou").streetNumber(120).postalCode(10000)
                         .city("Athens").floor(0).propertyType(PropertyType.WORK).build())
                 .telephoneNumber("2100000000").description("best burgers in town")

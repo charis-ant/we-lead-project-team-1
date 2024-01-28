@@ -23,8 +23,8 @@ public interface OrderService extends BaseService<Order, Long> {
 
     void updateItem(Order order, Product product, int quantity);
 
-    Optional<Order> findAllAccountOrders(Account account);
+    Optional<Order> findByAccount(Account account);
 
-    List<Order> findAllStoreOrders(Store store);
+    List<Order> findByStore(Store store);
 
 }

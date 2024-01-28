@@ -139,13 +139,13 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     @Override
-    public Optional<Order> findAllAccountOrders(Account account) {
-        return orderRepository.findAllAccountOrders(account);
+    public Optional<Order> findByAccount(Account account) {
+        return orderRepository.findByAccount(account);
     }
 
     @Override
-    public List<Order> findAllStoreOrders(Store store) {
-        return orderRepository.findAllStoreOrders(store);
+    public List<Order> findByStore(Store store) {
+        return orderRepository.findByStore(store);
     }
 
     private boolean checkNullability(Order order, Product product) {

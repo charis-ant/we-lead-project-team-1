@@ -37,7 +37,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     @Override
     public void calculateStoreRating(Long id) {
         Store store = get(id);
-        List<Order> orders = orderService.findAllStoreOrders(store);
+        List<Order> orders = orderService.findByStore(store);
         int sum = 0;
         for (Order o: orders) {
             sum = sum + o.getOrderRating();

@@ -12,9 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query
-    Optional<Order> findAllAccountOrders(Account account);
-
-    @Query
-    List<Order> findAllStoreOrders(Store store);
+    Optional<Order> findByAccount(Account account);
+    List<Order> findByStore(Store store);
 }
