@@ -1,6 +1,5 @@
 package gr.athtech.spring.app.transfer.resource;
 
-import gr.athtech.spring.app.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,7 +8,7 @@ import gr.athtech.spring.app.model.StoreCategory;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -19,10 +18,10 @@ public class StoreResource extends BaseResource {
     private String name;
 
     @NotNull(message = "Address cannot be null")
-    private AddressResource address;
+    private StoreAddressResource storeAddress;
 
     @NotNull(message = "Products cannot be null")
-    private ArrayList<Product> products;
+    private HashSet<ProductResource> products;
 
     @NotNull(message = "Phone cannot be null")
     @Pattern(regexp = "^(69\\d{8}|210\\d{7})$", message = "The phone number format is not correct")
@@ -35,9 +34,7 @@ public class StoreResource extends BaseResource {
     @Digits(integer = 1, fraction = 2, message = "Invalid store rating format")
     private Double storeRating;
 
-    private ArrayList<StoreCategory> storeCategories;
-
-    private LocalTime[][] schedule = new LocalTime[7][2];
+    private HashSet<StoreCategory> storeCategories;
 
     @NotNull(message = "Minimum order Price cannot be null")
     private BigDecimal minimumOrderPrice;

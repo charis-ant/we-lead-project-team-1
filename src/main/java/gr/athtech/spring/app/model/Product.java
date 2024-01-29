@@ -38,6 +38,6 @@ public class Product extends BaseModel {
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductCategory productCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Store store;
 }

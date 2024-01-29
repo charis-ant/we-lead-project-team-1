@@ -1,5 +1,7 @@
 package gr.athtech.spring.app.transfer.resource;
 
+import gr.athtech.spring.app.model.Account;
+import gr.athtech.spring.app.model.Store;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -10,7 +12,7 @@ import gr.athtech.spring.app.model.PropertyType;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class AddressResource extends BaseResource {
+public class AccountAddressResource extends BaseResource {
     @NotNull(message = "Street name cannot be null")
     private String streetName;
 
@@ -25,6 +27,7 @@ public class AddressResource extends BaseResource {
     @NotNull(message = "String city cannot be null")
     private String city;
 
+    private Account account;
     private Integer floor;
 
     @NotNull(message = "Property Type cannot be null")

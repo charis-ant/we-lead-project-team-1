@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,8 +23,8 @@ public class Store extends BaseModel{
     private String name;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Address address;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private StoreAddress storeAddress;
 
     @Column(length = 10)
     private String telephoneNumber;
@@ -32,14 +33,13 @@ public class Store extends BaseModel{
     @Column(length = 50, nullable = false)
     private String description;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column()
     private Double storeRating;
 
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private final ArrayList<Product> products = new ArrayList<>();
+    private final Set<Product> products = new HashSet<>();
 
     @NotNull
     @Enumerated(EnumType.STRING)

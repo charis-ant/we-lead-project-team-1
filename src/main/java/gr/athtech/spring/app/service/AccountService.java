@@ -1,10 +1,9 @@
 package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Account;
-import gr.athtech.spring.app.model.Address;
+import gr.athtech.spring.app.model.AccountAddress;
 import gr.athtech.spring.app.model.Order;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface AccountService extends BaseService<Account, Long> {
@@ -21,7 +20,7 @@ public interface AccountService extends BaseService<Account, Long> {
     //Pending Methods
     boolean login(String email, String password);
 
-    void addAddress(Long accountId, Address address);
+    void addAddress(Long accountId, AccountAddress accountAddress);
 
-    void removeAddress(Long accountId, Address address);
+    void removeAddress(Long accountId, AccountAddress accountAddress);
 }

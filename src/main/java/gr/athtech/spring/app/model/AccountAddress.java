@@ -16,9 +16,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "ADDRESSES")
+@Table(name = "ACCOUNT_ADDRESSES")
 @SequenceGenerator(name = "idGenerator", sequenceName = "ADDRESSES_SEQ", initialValue = 1, allocationSize = 1)
-public class Address extends BaseModel{
+public class AccountAddress extends BaseModel{
     @NotNull(message = "Street name cannot be null")
     @Column(length = 50, nullable = false)
     private String streetName;
@@ -31,9 +31,9 @@ public class Address extends BaseModel{
     @Column(length = 4, nullable = false)
     private Integer postalCode;
 
-    @ToString.Exclude
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
     @NotNull(message = "City cannot be null")

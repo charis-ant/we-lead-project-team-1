@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import gr.athtech.spring.app.model.AccountCategory;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -30,7 +30,7 @@ public class AccountResource extends BaseResource {
     private String telephoneNumber;
 
     @NotNull(message = "Address cannot be null")
-    private ArrayList<AddressResource> addresses;
+    private HashSet<AccountAddressResource> addresses;
 
     private AccountCategory accountCategory;
 }

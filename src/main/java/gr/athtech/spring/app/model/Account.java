@@ -5,7 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class Account extends BaseModel {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private final ArrayList<Address> addresses = new ArrayList<>();
+    private final Set<AccountAddress> accountAddresses = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10, nullable = false)

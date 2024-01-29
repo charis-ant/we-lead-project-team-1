@@ -9,9 +9,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Component
 @Profile("generate-catalog-customers")
@@ -24,63 +21,129 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
 
     @Override
     public void run(String... args) throws Exception {
-        ProductCategory newProductCategory = productCategoryService.create(ProductCategory.builder().name("burgers").build());
-        logger.info("Created {}.", newProductCategory);
+//        // Product category names
+        String[] productCategoryNames = {
+                "Burgers",
+                "Pizzas",
+                "Sandwiches",
+                "Sushi",
+                "Salads",
+                "Pasta",
+                "Desserts"
+        };
 
-        List<Product> products = List.of(
-                Product.builder().name("Hamburger").price(BigDecimal.valueOf(7)).description("classic hamburger")
-                        .productCategory( newProductCategory).store(storeService.create(Store.builder().name(" House")
-                                        .address(Address.builder().streetName("Ermou").streetNumber(120).postalCode(10000)
-                                                .city("Athens").floor(0).propertyType(PropertyType.WORK).build())
-                                        .build())).build()
-//                Product.builder().name("Cheeseburger").price(BigDecimal.valueOf(8)).description("delicious cheeseburger")
-//                        .productCategory( newProductCategory).build(),
-//                Product.builder().name("Holy cow").price(BigDecimal.valueOf(10)).description("cheeseburger with a modern twist")
-//                        .productCategory( newProductCategory).build(),
-//                Product.builder().name("Veggie").price(BigDecimal.valueOf(9)).description("vegetarian burger")
-//                        .productCategory( newProductCategory).build()
-        );
+        for (String categoryName : productCategoryNames) {
+            // Create new product category
+            ProductCategory newProductCategory = productCategoryService.create(
+                    ProductCategory.builder()
+                            .name(categoryName.toLowerCase())
+                            .build()
+            );
 
-        var productsCreated = productService.createAll(products);
-        logger.info("Created {} products.", productsCreated.size());
+            // Log the creation of the new product category
+            logger.info("Created {}.", newProductCategory);
+        }
 
-        productsCreated.stream()
-                .sorted(Comparator.comparing(Product::getId))
-                .forEach(p -> logger.debug("{}. {}", p.getId(), p));
+//         Customer names and details
+        String[][] customerDetails = {
+                {"John Doe", "johndoe@mail.com", "Karaiskaki", "Patras"},
+                {"Jane Smith", "janesmith@mail.com", "Riga Fereou", "Patras"},
+                {"Alice Johnson", "alicejohnson@mail.com", "Ermou", "Athens"},
+                {"Bob Brown", "bobbrown@mail.com", "Stadio", "Athens"},
+                {"Tom Harris", "tomharris@mail.com", "Tsimiski", "Thessaloniki"},
+                {"Emily White", "emilywhite@mail.com", "Vasilisis Olgas", "Thessaloniki"},
+                {"David Green", "davidgreen@mail.com", "Kanari", "Volos"}
+        };
 
-        Store thestore = storeService.create(Store.builder().name("Burger House")
-                .address(Address.builder().streetName("Ermou").streetNumber(120).postalCode(10000)
-                        .city("Athens").floor(0).propertyType(PropertyType.WORK).build())
-                .telephoneNumber("2100000000").description("best burgers in town")
-                .storeRating(null).storeCategory(StoreCategory.BURGER)
-                .products(new ArrayList<>(productsCreated))
-                .minimumOrderPrice(BigDecimal.valueOf(6)).deliveryCost(BigDecimal.valueOf(2))
-                .build()
-        );
+        for (int i = 0; i < customerDetails.length; i++) {
+            // Splitting the name into first and last name
+            String[] name = customerDetails[i][0].split(" ");
 
-        List<Account> accounts = List.of(
-                Account.builder().email("martybyrde@gmail.com")
-                        .firstname("Marty").lastname("Byrde")
-                        .telephoneNumber("6977777777").password("1234").accountCategory(AccountCategory.CUSTOMER)
-                        .addresses(new ArrayList<>(List.of(Address.builder()
-                                .streetName("Stadiou").streetNumber(10)
-                                .postalCode(10000).propertyType(PropertyType.HOME)
-                                .city("Athens").floor(5).build())))
-                        .build(),
-                Account.builder().email("sixseasonsandamovie@gmail.com")
-                        .firstname("Abed").lastname("Nadir")
-                        .telephoneNumber("6988888888").password("54321").accountCategory(AccountCategory.CUSTOMER)
-                        .addresses(new ArrayList<> (List.of(Address.builder()
-                                .streetName("Athinas").streetNumber(23)
-                                .postalCode(10000).propertyType(PropertyType.WORK)
-                                .city("Athens").floor(4).build())))
-                        .build()
-        );
+            // Create new account
+            Account newAccount = Account.builder()
+                    .email(customerDetails[i][1])
+                    .firstname(name[0])
+                    .lastname(name[1])
+                    .telephoneNumber("690000000" + (i + 1))
+                    .password("pass" + (i + 1))
+                    .accountCategory(AccountCategory.CUSTOMER)
+                    .build();
 
-        var accountsCreated = accountService.createAll(accounts);
-        logger.info("Created {} accounts.", accountsCreated.size());
-        accountsCreated.stream()
-                .sorted(Comparator.comparing(Account::getId))
-                .forEach(c -> logger.debug("{}. {}", c.getId(), c));
+            // Create new address
+            AccountAddress newAccountAddress = AccountAddress.builder()
+                    .streetName(customerDetails[i][2])
+                    .streetNumber(i + 1)
+                    .postalCode(10000 + i)
+                    .propertyType(PropertyType.WORK) // or any other type you see fit
+                    .city(customerDetails[i][3])
+                    .floor(i + 1)
+                    .account(newAccount) // Link the address to the account
+                    .build();
+
+            // Add address to account
+            newAccount.getAccountAddresses().add(newAccountAddress);
+
+            // Persist the new account with the address
+            accountService.create(newAccount);
+        }
+
+// Creating a ProductCategory
+    ProductCategory newProductCategory = productCategoryService.create(
+            ProductCategory.builder().name("burgers").build());
+    logger.info("Created {}.", newProductCategory);
+
+    // Data for stores and addresses
+    String[][] storeData = {
+            {"Burger House", "6900000000", "best burgers in town", "Zografou", "120", "20000", "Athens", "BURGER"},
+            {"Pizza Place", "6900000001", "delicious pizzas", "Monastiraki", "10", "10000", "Athens", "PIZZA"},
+            {"Sushi Corner", "6900000002", "fresh sushi delights", "Glyfada", "5", "16675", "Athens", "SUSHI"}
+    };
+
+        // Data for products
+        String[][] productData = {
+                {"Burger Classic", "4.5", "Classic beef burger"},
+                {"Burger Cheese", "5.0", "Cheeseburger with extra cheese"},
+                {"Burger Veggie", "4.0", "Healthy veggie burger"}
+        };
+
+        for (String[] storeInfo : storeData) {
+            // Create and save the store
+            Store newStore = Store.builder()
+                    .name(storeInfo[0])
+                    .telephoneNumber(storeInfo[1])
+                    .description(storeInfo[2])
+                    .storeRating(4.0)
+                    .storeCategory(StoreCategory.valueOf(storeInfo[7]))
+                    .minimumOrderPrice(BigDecimal.valueOf(6))
+                    .deliveryCost(BigDecimal.valueOf(2))
+                    .build();
+
+            // Create the store address and associate it with the store
+            StoreAddress newStoreAddress = StoreAddress.builder()
+                    .streetName(storeInfo[3])
+                    .streetNumber(Integer.parseInt(storeInfo[4]))
+                    .postalCode(Integer.parseInt(storeInfo[5]))
+                    .city(storeInfo[6])
+                    .store(newStore) // Associate with the Store
+                    .build();
+
+            // Set the store address in the store and save the store
+            newStore.setStoreAddress(newStoreAddress);
+            newStore = storeService.create(newStore); // Assuming storeService is available
+
+            // Create and save products for this store
+            for (String[] productInfo : productData) {
+                Product newProduct = Product.builder()
+                        .name(productInfo[0])
+                        .price(new BigDecimal(productInfo[1]))
+                        .description(productInfo[2])
+                        .productCategory(newProductCategory) // Assuming newProductCategory is already created and available
+                        .store(newStore)
+                        .build();
+
+                newStore.getProducts().add(newProduct);
+                productService.create(newProduct); // Assuming productService is available
+            }
+        }
     }
 }

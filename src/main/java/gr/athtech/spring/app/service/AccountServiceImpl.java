@@ -1,7 +1,7 @@
 package gr.athtech.spring.app.service;
 
 import gr.athtech.spring.app.model.Account;
-import gr.athtech.spring.app.model.Address;
+import gr.athtech.spring.app.model.AccountAddress;
 import gr.athtech.spring.app.model.Order;
 import gr.athtech.spring.app.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,16 +76,16 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     @Transactional
     @Override
-    public void addAddress(Long accountId, Address address) {
+    public void addAddress(Long accountId, AccountAddress accountAddress) {
         var account = get(accountId);
 
-        if (address.getStreetName() == null || address.getStreetNumber() == null || address.getPostalCode() == null) {
+        if (accountAddress.getStreetName() == null || accountAddress.getStreetNumber() == null || accountAddress.getPostalCode() == null) {
             throw new IllegalArgumentException("Address field cannot be null");
         } else {
-            if (account.getAddresses().contains(address)) {
+            if (account.getAccountAddresses().contains(accountAddress)) {
                 throw new IllegalStateException("Address already exists for the account");
             } else {
-                account.getAddresses().add(address);
+                account.getAccountAddresses().add(accountAddress);
                 update(account);
             }
         }
@@ -94,12 +94,12 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     @Transactional
     @Override
-    public void removeAddress(Long accountId, Address address) {
+    public void removeAddress(Long accountId, AccountAddress accountAddress) {
         var account = get(accountId);
-        if (account.getAddresses().contains(address)) {
-            if (account.getAddresses().size() >= 2) {
-                accountRepository.deleteById(address.getId());
-                account.getAddresses().remove(address);
+        if (account.getAccountAddresses().contains(accountAddress)) {
+            if (account.getAccountAddresses().size() >= 2) {
+                accountRepository.deleteById(accountAddress.getId());
+                account.getAccountAddresses().remove(accountAddress);
                 update(account);
             } else {
                 throw new NullPointerException("Address field cannot be null");
