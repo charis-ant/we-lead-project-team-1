@@ -9,6 +9,7 @@ import gr.athtech.spring.app.service.StoreService;
 import gr.athtech.spring.app.transfer.ApiResponse;
 import gr.athtech.spring.app.transfer.resource.StoreResource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,15 @@ public class StoreController extends BaseController<Store, StoreResource> {
                 ApiResponse.<List<StoreResource>>builder()
                         .data(storeMapper.toResources(storeService.findByStoreCategory(storeCategory)))
                         .build());
+    }
+
+    @PatchMapping(params = "storeId")
+    public ResponseEntity<ApiResponse<StoreResource>> calculateStoreRating(@RequestParam Long storeId) {
+        storeService.calculateStoreRating(storeId);
+        return new ResponseEntity<>(
+                getNoCacheHeaders(),
+                HttpStatus.ACCEPTED
+        );
     }
 
 }

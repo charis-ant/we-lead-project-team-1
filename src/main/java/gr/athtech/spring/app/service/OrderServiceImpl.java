@@ -11,12 +11,11 @@ import gr.athtech.spring.app.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -82,14 +81,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
     @Override
-    public void emptyOrder(Account account, Order order) {
-        if (order.getAccount().equals(account)) {
-            orderRepository.delete(order);
-        }
-        //orderRepository.deleteById(order.getId());
-    }
-
-    @Override
     public void checkout(final Order order, final PaymentMethod paymentMethod, final BigDecimal deliveryTip) {
 
         if (!validate(order)) {
@@ -126,26 +117,30 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     }
 
 
+    @Transactional
     @Override
-    public void changeStatus(Order order, Status status) {
+    public void changeStatus(Long orderId, Status status) {
+        var order = get(orderId);
         order.setStatus(status);
         update(order);
     }
 
+    @Transactional
     @Override
-    public void rateOrder(Order order, Integer orderRating) {
+    public void rateOrder(Long orderId, Integer orderRating) {
+        var order = get(orderId);
         order.setOrderRating(orderRating);
         update(order);
     }
 
     @Override
-    public Optional<Order> findByAccount(Account account) {
-        return orderRepository.findByAccount(account);
+    public List<Order> findByAccountId(Long accountId) {
+        return orderRepository.findByAccountId(accountId);
     }
 
     @Override
-    public List<Order> findByStore(Store store) {
-        return orderRepository.findByStore(store);
+    public List<Order> findByStoreId(Long storeId) {
+        return orderRepository.findByStoreId(storeId);
     }
 
     private boolean checkNullability(Order order, Product product) {

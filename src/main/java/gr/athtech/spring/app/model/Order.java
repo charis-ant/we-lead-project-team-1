@@ -48,8 +48,7 @@ public class Order extends BaseModel{
     @Column(length = 11, nullable = false)
     private PaymentMethod paymentMethod;
 
-    @NotNull
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(precision = 10, scale = 2)
     private BigDecimal deliveryTip;
 
     @Enumerated(EnumType.STRING)

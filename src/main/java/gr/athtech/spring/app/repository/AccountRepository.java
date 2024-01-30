@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findByTelephoneNumber(String telephoneNumber);
     Account findByEmail(String email);
+
+//    void removeAddress(Long addressId);
 }

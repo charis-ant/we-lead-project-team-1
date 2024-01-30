@@ -33,35 +33,35 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
         return storeRepository.findByStoreCategory(storeCategory);
     }
 
+//    @Override
+//    public List<Store> findMostFamousStores() {
+//        List<Store> stores = storeRepository.findAll();
+////        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
+////        int topCount = Math.min(5, stores.size());
+////        return stores.subList(0, topCount);
+//        return stores;
+//    }
+//
+//    @Override
+//    public List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory) {
+//        List<Store> stores = storeRepository.findByStoreCategory(storeCategory);
+////        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
+////        int topCount = Math.min(5, stores.size());
+////        return stores.subList(0, topCount);
+//        return stores;
+//    }
+
     @Transactional
     @Override
-    public void calculateStoreRating(Long id) {
-        Store store = get(id);
-        List<Order> orders = orderService.findByStore(store);
+    public void calculateStoreRating(Long storeId) {
+        List<Order> orders = orderService.findByStoreId(storeId);
         int sum = 0;
         for (Order o: orders) {
             sum = sum + o.getOrderRating();
         }
-
         double finalRating = (double) sum / orders.size();
-
+        var store = get(storeId);
         store.setStoreRating(finalRating);
         update(store);
-    }
-
-    @Override
-    public List<Store> findMostFamousStores() {
-        List<Store> stores = storeRepository.findAll();
-        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
-        int topCount = Math.min(5, stores.size());
-        return stores.subList(0, topCount);
-    }
-
-    @Override
-    public List<Store> findMostFamousStoresByCategory(StoreCategory storeCategory) {
-        List<Store> stores = storeRepository.findByStoreCategory(storeCategory);
-        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
-        int topCount = Math.min(5, stores.size());
-        return stores.subList(0, topCount);
     }
 }

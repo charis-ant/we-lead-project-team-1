@@ -21,7 +21,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
 
     @Override
     public void run(String... args) throws Exception {
-//        // Product category names
+        // Product category names
         String[] productCategoryNames = {
                 "Burgers",
                 "Pizzas",
@@ -44,7 +44,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
             logger.info("Created {}.", newProductCategory);
         }
 
-//         Customer names and details
+        //Customer names and details
         String[][] customerDetails = {
                 {"John Doe", "johndoe@mail.com", "Karaiskaki", "Patras"},
                 {"Jane Smith", "janesmith@mail.com", "Riga Fereou", "Patras"},
@@ -87,19 +87,19 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
             accountService.create(newAccount);
         }
 
-// Creating a ProductCategory
+    //Creating a ProductCategory
     ProductCategory newProductCategory = productCategoryService.create(
             ProductCategory.builder().name("burgers").build());
     logger.info("Created {}.", newProductCategory);
 
-    // Data for stores and addresses
+    //Data for stores and addresses
     String[][] storeData = {
             {"Burger House", "6900000000", "best burgers in town", "Zografou", "120", "20000", "Athens", "BURGER"},
             {"Pizza Place", "6900000001", "delicious pizzas", "Monastiraki", "10", "10000", "Athens", "PIZZA"},
             {"Sushi Corner", "6900000002", "fresh sushi delights", "Glyfada", "5", "16675", "Athens", "SUSHI"}
     };
 
-        // Data for products
+        //Data for products
         String[][] productData = {
                 {"Burger Classic", "4.5", "Classic beef burger"},
                 {"Burger Cheese", "5.0", "Cheeseburger with extra cheese"},
@@ -107,7 +107,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
         };
 
         for (String[] storeInfo : storeData) {
-            // Create and save the store
+            //Create and save the store
             Store newStore = Store.builder()
                     .name(storeInfo[0])
                     .telephoneNumber(storeInfo[1])
@@ -118,7 +118,7 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                     .deliveryCost(BigDecimal.valueOf(2))
                     .build();
 
-            // Create the store address and associate it with the store
+            //Create the store address and associate it with the store
             StoreAddress newStoreAddress = StoreAddress.builder()
                     .streetName(storeInfo[3])
                     .streetNumber(Integer.parseInt(storeInfo[4]))
@@ -127,11 +127,11 @@ public class CatalogCustomerSampleContentCreator extends BaseComponent implement
                     .store(newStore) // Associate with the Store
                     .build();
 
-            // Set the store address in the store and save the store
+            //Set the store address in the store and save the store
             newStore.setStoreAddress(newStoreAddress);
             newStore = storeService.create(newStore); // Assuming storeService is available
 
-            // Create and save products for this store
+            //Create and save products for this store
             for (String[] productInfo : productData) {
                 Product newProduct = Product.builder()
                         .name(productInfo[0])

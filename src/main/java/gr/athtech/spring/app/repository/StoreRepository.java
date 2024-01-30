@@ -12,6 +12,9 @@ import java.util.List;
 public interface StoreRepository extends JpaRepository<Store, Long> {
     Store findByName(String name);
 
-    @Query
     List<Store> findByStoreCategory(StoreCategory storeCategory);
+
+//    List<Store> findMostFamousStores();
+//
+//    List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory);
 }

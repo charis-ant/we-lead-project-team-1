@@ -4,27 +4,24 @@ import gr.athtech.spring.app.model.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService extends BaseService<Order, Long> {
     Order initiateOrder(Account account, Store store);
 
     void addItem(final Order order, final Product product, final int quantity);
 
-    void removeItem(Order order, Product product);
+    void updateItem(Order order, Product product, int quantity);
 
-    void emptyOrder(Account account, Order order);
+    void removeItem(Order order, Product product);
 
     void checkout(Order order, PaymentMethod paymentMethod, BigDecimal deliveryTip);
 
-    void changeStatus(Order order, Status status);
+    void changeStatus(Long orderId, Status status);
 
-    void rateOrder(Order order, Integer orderRating);
+    void rateOrder(Long orderId, Integer orderRating);
 
-    void updateItem(Order order, Product product, int quantity);
+    List<Order> findByAccountId(Long accountId);
 
-    Optional<Order> findByAccount(Account account);
-
-    List<Order> findByStore(Store store);
+    List<Order> findByStoreId(Long storeId);
 
 }

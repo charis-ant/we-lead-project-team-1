@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-import java.util.List;
 
 @Component
 @Profile("generate-orders")
@@ -26,28 +24,23 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
 
     @Override
     public void run(String... args) throws Exception {
-        // Get all accounts
-        accountService.findAll().forEach(a -> logger.info("{}", a));
-
-        // We don't mind if a "find" method returns a null
-        logger.info("Does customer exist? {}.", (accountService.findByEmail("sixseasonsandamovie@gmail.com") != null));
-        logger.info("Does customer exist? {}.", (accountService.findByEmail("non-existing@gmail.com") != null));
 
         // Load customer and create an order by adding/updating/removing content before checking it out
-        Account firstCustomer = accountService.findByEmail("sixseasonsandamovie@gmail.com");
-        Store orderStore = storeService.findByName("Burger House");
+        Account firstCustomer = accountService.findByEmail("johndoe@mail.com");
+        Store firstStore = storeService.findByName("Burger House");
 
-
-        Order firstOrder = orderService.initiateOrder(firstCustomer, orderStore);
+        Order firstOrder = orderService.initiateOrder(firstCustomer, firstStore);
 
         // Add item(s)
-        orderService.addItem(firstOrder, productService.findByName("Hamburger"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Cheeseburger"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Veggie"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Burger Classic"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Burger Cheese"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
+        // Update item(s)
+        orderService.updateItem(firstOrder, productService.findByName("Burger Cheese"), 3);
         // Remove item(s)
-        orderService.removeItem(firstOrder, productService.findByName("Veggie"));
+        orderService.removeItem(firstOrder, productService.findByName("Burger Veggie"));
         // Checkout order
         orderService.checkout(firstOrder, PaymentMethod.CARD, BigDecimal.valueOf(0.5));
     }

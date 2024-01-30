@@ -8,13 +8,11 @@ import java.util.List;
 public interface StoreService extends BaseService<Store, Long> {
     Store findByName(String name);
 
-    Store create(Store store);
-
     List<Store> findByStoreCategory(StoreCategory storeCategory);
 
-    void calculateStoreRating(Long id);
+//    List<Store> findMostFamousStores();
+//
+//    List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory);
 
-    List<Store> findMostFamousStores();
-
-    List<Store> findMostFamousStoresByCategory(StoreCategory storeCategory);
+    void calculateStoreRating(Long storeId);
 }
