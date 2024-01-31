@@ -1,0 +1,458 @@
+{
+	"info": {
+		"_postman_id": "5cfa78f6-c90b-401e-a0b8-4579bef922c9",
+		"name": "FoodDeliveryApp-REST-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15532810",
+		"_collection_link": "https://restless-firefly-8729-2.postman.co/workspace/WE-LEAD-TEAM-1~9321824d-1bf9-4f25-8733-ecf4cf2cda9d/collection/15532810-5cfa78f6-c90b-401e-a0b8-4579bef922c9?action=share&source=collection_link&creator=15532810"
+	},
+	"item": [
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "Get orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change status",
+					"request": {
+						"method": "PATCH",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 13,\r\n            \"name\": \"Garlic Bread\",\r\n            \"price\": 7,\r\n            \"description\": \"bread with garlic butter\",\r\n            \"productCategory\": {\r\n                \"id\": 8,\r\n                \"name\": \"starters\"\r\n            }\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/products?storeId=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "storeId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by product category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products?productCategoryId=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "productCategoryId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "Get accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get account by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts?email=martybyrde@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "martybyrde@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get account by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/accounts?email",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete account",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create account",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Add address",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Remove address",
+					"request": {
+						"method": "PATCH",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "stores",
+			"item": [
+				{
+					"name": "Get stores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/stores",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get store by Id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get most famous stores in general",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get most famous stores by category",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete store",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get store by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/stores?name",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get stores by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/stores?storeCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							],
+							"query": [
+								{
+									"key": "storeCategory",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 2,\r\n            \"name\": \"Amigos\",\r\n            \"address\": {\r\n                \"id\": 1,\r\n                \"streetName\": \"Romvis\",\r\n                \"streetNumber\": 17,\r\n                \"postalCode\": 10000,\r\n                \"city\": \"Athens\",\r\n                \"floor\": 0,\r\n                \"propertyType\": \"WORK\"\r\n            },\r\n            \"products\": [\r\n                {\r\n                    \"id\": 5,\r\n                    \"name\": \"Nachos\",\r\n                    \"price\": 3,\r\n                    \"description\": \"plain nacho chips\",\r\n                    \"productCategory\": {\r\n                        \"id\": 2,\r\n                        \"name\": \"Nachos\"\r\n                    }\r\n                }\r\n            ],\r\n            \"telephoneNumber\": 2100000000,\r\n            \"description\": \"Cocina Latina\",\r\n            \"storeRating\": null,\r\n            \"storeCategories\": [\r\n                \"MEXICAN\"\r\n            ],\r\n            \"schedule\": [\r\n                [\r\n                    \"09:00:00\",\r\n                    \"09:00:00\"\r\n                ],\r\n                [\r\n                    \"14:00:00\",\r\n                    \"21:00:00\"\r\n                ],\r\n                [\r\n                    \"09:00:00\",\r\n                    \"09:00:00\"\r\n                ],\r\n                [\r\n                    \"09:00:00\",\r\n                    \"09:00:00\"\r\n                ],\r\n                [\r\n                    \"13:00:00\",\r\n                    \"01:00:00\"\r\n                ],\r\n                [\r\n                    \"03:00:00\",\r\n                    \"01:00:00\"\r\n                ],\r\n                [\r\n                    \"13:00:00\",\r\n                    \"12:00:00\"\r\n                ]\r\n            ],\r\n            \"minimumOrderPrice\": 7,\r\n            \"deliveryCost\": 3\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/stores",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product category",
+			"item": [
+				{
+					"name": "Get product category by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productCategories?name=starters",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productCategories"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "starters"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productCategories",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productCategories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
