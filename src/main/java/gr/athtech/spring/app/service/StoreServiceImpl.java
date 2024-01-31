@@ -35,19 +35,29 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 
 //    @Override
 //    public List<Store> findMostFamousStores() {
+//        return storeRepository.findMostFamousStores();
+//    }
+//
+//    @Override
+//    public List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory) {
+//        return storeRepository.findMostFamousStoresByStoreCategory(storeCategory);
+//    }
+
+//    @Override
+//    public List<Store> findMostFamousStores() {
 //        List<Store> stores = storeRepository.findAll();
-////        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
-////        int topCount = Math.min(5, stores.size());
-////        return stores.subList(0, topCount);
+//        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
+//        int topCount = Math.min(5, stores.size());
+//        return stores.subList(0, topCount);
 //        return stores;
 //    }
 //
 //    @Override
 //    public List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory) {
 //        List<Store> stores = storeRepository.findByStoreCategory(storeCategory);
-////        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
-////        int topCount = Math.min(5, stores.size());
-////        return stores.subList(0, topCount);
+//        stores.sort(Comparator.comparingDouble(Store::getStoreRating).reversed());
+//        int topCount = Math.min(5, stores.size());
+//        return stores.subList(0, topCount);
 //        return stores;
 //    }
 

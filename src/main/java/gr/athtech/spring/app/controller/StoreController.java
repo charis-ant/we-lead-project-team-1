@@ -49,6 +49,22 @@ public class StoreController extends BaseController<Store, StoreResource> {
                         .build());
     }
 
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<StoreResource>>> findMostFamousStores() {
+//        return ResponseEntity.ok(
+//                ApiResponse.<List<StoreResource>>builder()
+//                        .data(storeMapper.toResources(storeService.findMostFamousStores()))
+//                        .build());
+//    }
+//
+//    @GetMapping(params = {"storeCategory"})
+//    public ResponseEntity<ApiResponse<List<StoreResource>>> findMostFamousStoresByStoreCategory(@RequestParam StoreCategory storeCategory) {
+//        return ResponseEntity.ok(
+//                ApiResponse.<List<StoreResource>>builder()
+//                        .data(storeMapper.toResources(storeService.findMostFamousStoresByStoreCategory(storeCategory)))
+//                        .build());
+//    }
+
     @PatchMapping(params = "storeId")
     public ResponseEntity<ApiResponse<StoreResource>> calculateStoreRating(@RequestParam Long storeId) {
         storeService.calculateStoreRating(storeId);

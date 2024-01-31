@@ -31,13 +31,13 @@ public class Product extends BaseModel {
     private BigDecimal price;
 
     @NotNull
-    @Column(length = 50, nullable = false)
+    @Column(length = 100, nullable = false)
     private String description;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductCategory productCategory;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     private Store store;
 }

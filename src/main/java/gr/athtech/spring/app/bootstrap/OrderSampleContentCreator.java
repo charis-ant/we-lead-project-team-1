@@ -32,15 +32,15 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
         Order firstOrder = orderService.initiateOrder(firstCustomer, firstStore);
 
         // Add item(s)
-        orderService.addItem(firstOrder, productService.findByName("Burger Classic"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Burger Cheese"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
-        orderService.addItem(firstOrder, productService.findByName("Burger Veggie"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Hamburger"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Cheeseburger"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Vegetarian burger"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Vegetarian burger"), 1);
+        orderService.addItem(firstOrder, productService.findByName("Vegetarian burger"), 1);
         // Update item(s)
-        orderService.updateItem(firstOrder, productService.findByName("Burger Cheese"), 3);
+        orderService.updateItem(firstOrder, productService.findByName("Cheeseburger"), 3);
         // Remove item(s)
-        orderService.removeItem(firstOrder, productService.findByName("Burger Veggie"));
+        orderService.removeItem(firstOrder, productService.findByName("Vegetarian burger"));
         // Checkout order
         orderService.checkout(firstOrder, PaymentMethod.CARD, BigDecimal.valueOf(0.5));
     }

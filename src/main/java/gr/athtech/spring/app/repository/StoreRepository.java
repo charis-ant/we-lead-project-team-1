@@ -15,6 +15,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findByStoreCategory(StoreCategory storeCategory);
 
 //    List<Store> findMostFamousStores();
-//
 //    List<Store> findMostFamousStoresByStoreCategory(StoreCategory storeCategory);
 }

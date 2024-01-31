@@ -33,11 +33,11 @@ public class Store extends BaseModel{
     @Column(length = 50, nullable = false)
     private String description;
 
-    @Column()
+    @Column
     private Double storeRating;
 
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private final Set<Product> products = new HashSet<>();
 
